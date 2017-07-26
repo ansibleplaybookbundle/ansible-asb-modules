@@ -1,0 +1,20 @@
+galaxy_info:
+  author: ansibleplaybookbundle
+  description: Ansible Service Broker modules for use in Ansible Playbook Bundles
+  company: Red Hat, Inc.
+  license: Apache V2
+  min_ansible_version: 2.3
+  # github_branch: master
+
+  platforms:
+    - name: GenericUNIX
+      versions:
+      - any
+
+  galaxy_tags:
+    - k8s
+    - kubernetes
+    - openshift
+    - broker
+
+dependencies: []

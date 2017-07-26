@@ -1,0 +1,72 @@
+---
+- hosts: localhost
+  vars:
+    binding_file_path: /var/tmp/bind-creds
+  roles:
+    - ansibleplaybookbundle.asb-modules
+  tasks:
+    - name: prepare test for clean run
+      file:
+        path: "{{ binding_file_path }}"
+        state: absent
+
+    - name: encode bind credentials
+      asb_encode_binding:
+        fields:
+          TEST_VAR_1: "test value 1"
+          TestValue2: 2
+      register: apb_result
+
+    - debug:
+        var: apb_result
+
+    - name: decode encoded value returned
+      set_fact:
+        decoded_apb_result: "{{ apb_result.encoded_fields | b64decode }}"
+
+    - debug:
+        var: decoded_apb_result
+
+    - stat:
+        path: "{{ binding_file_path }}"
+      register: creds_file_status
+
+    - name: Credentials files should exist
+      debug:
+        var: creds_file_status.stat.exists
+
+    - fail:
+        msg: Credentials files at {{ binding_file_path }} could not be found
+      when: not creds_file_status.stat.exists
+
+    - name: read credentials file
+      shell: cat {{ binding_file_path }}
+      register: encoded_binding
+      when: creds_file_status.stat.exists
+      changed_when: False
+
+    - name: Credentials files should contain encoded value
+      debug:
+        msg: "{{ encoded_binding.stdout }}"
+      when: creds_file_status.stat.exists
+
+    - set_fact:
+        binding: "{{ encoded_binding.stdout | b64decode | from_json }}"
+      when: creds_file_status.stat.exists
+
+    - name: Credentials should match original values
+      debug:
+        var: binding
+
+    - fail:
+        msg: Decoded value for TEST_VAR_1 did not match original ("test value 1")
+      when: binding["TEST_VAR_1"] != "test value 1"
+
+    - fail:
+        msg: Decoded value for TestValue2 value did not match original (2)
+      when: binding["TestValue2"] != 2
+
+    - name: clean up after testing
+      file:
+        path: "{{ binding_file_path }}"
+        state: absent
