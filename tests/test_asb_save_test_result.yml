@@ -1,0 +1,65 @@
+---
+- hosts: localhost
+  vars:
+    result_file_path: /var/tmp/test-result
+  roles:
+    - ansibleplaybookbundle.asb-modules
+  tasks:
+    - name: prepare test for clean run
+      file:
+        path: "{{ result_file_path }}"
+        state: absent
+
+    - name: create test result 
+      asb_save_test_result:
+        fail: true
+        msg: "Test failed"
+
+    - stat:
+        path: "{{ result_file_path }}"
+      register: result_file_status
+
+    - name: test result files should exist
+      debug:
+        var: result_file_status.stat.exists
+
+    - fail:
+        msg: Test result file at {{ result_file_path }} could not be found
+      when: not result_file_status.stat.exists
+
+    - name: read test results file
+      shell: cat {{ result_file_path }}
+      register: test_result
+      when: result_file_status.stat.exists
+      changed_when: False
+
+    - name: test result file should contain 1 test result
+      debug:
+        msg: "{{ test_result.stdout }}"
+    
+    - name: create second test result 
+      asb_save_test_result:
+        fail: true
+        msg: "Test failed 1"
+    
+    - stat:
+        path: "{{ result_file_path }}"
+      register: result_file_status
+
+    - name: test result files should exist
+      debug:
+        var: result_file_status.stat.exists
+
+    - fail:
+        msg: Test result file at {{ result_file_path }} could not be found
+      when: not result_file_status.stat.exists
+
+    - name: read test results file
+      shell: cat {{ result_file_path }}
+      register: test_result
+      when: result_file_status.stat.exists
+      changed_when: False
+
+    - name: test result file should contain 2 test results 
+      debug:
+        msg: "{{ test_result.stdout }}"

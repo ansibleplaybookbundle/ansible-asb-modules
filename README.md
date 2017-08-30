@@ -29,6 +29,7 @@ Once installed, use the modules in playbook or role:
 Modules
 -------
 - [asb_encode_binding](library/asb_encode_binding.py) - Takes a dictionary of fields and makes them available to Ansible Service Broker to read and create a binding when running the action (provision, bind, etc)
+- [asb_save_test_result](library/asb_save_test_result.py) - Takes a message and a test status (failure or success) and will make them available to the APB tool to read and output. This is meant to be used during the test action.
 
 License
 -------
