@@ -3,8 +3,8 @@ Version:        0.0.1
 Release:        1%{?dist}
 Summary:        Ansible role containing Ansible Service Broker modules
 License:        ASL 2.0
-URL:            https://github.com/fusor/%{name}
-Source0:        https://github.com/fusor/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+URL:            https://github.com/ansibleplaybookbundle/%{name}
+Source0:        https://github.com/ansibleplaybookbundle/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 BuildArch:      noarch
 

@@ -1,7 +1,7 @@
 asb-modules
 =========
 
-This role loads modules for [Ansible Service Broker](https://github.com/openshift/ansible-service-broker) and is intended for execution from [Ansible Playbook Bundles](https://github.com/fusor/ansible-playbook-bundle).  It is included in apb-base so all modules should be available if your image is built `FROM ansibleplaybookbundle/apb-base`
+This role loads modules for [Ansible Service Broker](https://github.com/openshift/ansible-service-broker) and is intended for execution from [Ansible Playbook Bundles](https://github.com/ansibleplaybookbundle/ansible-playbook-bundle).  It is included in apb-base so all modules should be available if your image is built `FROM ansibleplaybookbundle/apb-base`
 
 
 Installation and use
