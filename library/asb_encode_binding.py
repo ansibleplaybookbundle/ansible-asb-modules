@@ -44,9 +44,18 @@ encoded_fields:
 
 import json
 import base64
+import os
 from ansible.module_utils.basic import AnsibleModule
+try:
+    from kubernetes import client, config
+    config.load_kube_config()
+    api = client.CoreV1Api()
+except Exception as error:
+    ansible_module.fail_json(msg="Error attempting to load kubernetes client: {}".format(error))
 
 ENCODED_BINDING_PATH = "/var/tmp/bind-creds"
+ENV_NAME = "POD_NAME"
+ENV_NAMESPACE = "POD_NAMESPACE"
 
 
 def main():
@@ -61,13 +70,24 @@ def main():
         fields_json = json.dumps(ansible_module.params['fields'])
         encoded_fields = base64.b64encode(fields_json)
     except Exception as error:
-        ansible_module.fail_json(msg="Error attempting to encode binding: " + str(error))
+        ansible_module.fail_json(msg="Error attempting to encode binding: {}".format(error))
 
     try:
-        with open(ENCODED_BINDING_PATH, "w") as binding_file:
-            binding_file.write(encoded_fields)
+        name = os.environ[ENV_NAME]
+        namespace = os.environ[ENV_NAMESPACE]
     except Exception as error:
-        ansible_module.fail_json(msg="Error attempting to write binding: " + str(error))
+        ansible_module.fail_json(msg="Error attempting to get name/namespace from environment: {}".format(error))
+
+    try:
+	api.create_namespaced_secret(
+	    namespace=namespace,
+	    body=client.V1Secret(
+		metadata=client.V1ObjectMeta(name=name),
+		data={"fields": encoded_fields}
+	    )
+	)
+    except Exception as error:
+        ansible_module.fail_json(msg="Error attempting to create binding secret: {}".format(error))
 
     ansible_module.exit_json(changed=True, encoded_fields=encoded_fields)
 

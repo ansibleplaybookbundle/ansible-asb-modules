@@ -66,7 +66,7 @@ def main():
             if ansible_module.params['msg'] is not None:
                 test_result_file.write("%s\n" % ansible_module.params['msg'])
     except Exception as error:
-        ansible_module.fail_json(msg="Error attempting to write test result: " + str(error))
+        ansible_module.fail_json(msg="Error attempting to write test result: {}".format(error))
 
     ansible_module.exit_json(changed=True)
 
