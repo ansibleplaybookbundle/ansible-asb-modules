@@ -1,5 +1,5 @@
 Name:           ansible-asb-modules
-Version:        0.1.0
+Version:        0.1.1
 Release:        1%{?dist}
 Summary:        Ansible role containing Ansible Service Broker modules
 License:        ASL 2.0
@@ -28,6 +28,10 @@ mv * %{buildroot}%{_sysconfdir}/ansible/roles/ansibleplaybookbundle.asb-modules
 %{_sysconfdir}/ansible/roles/ansibleplaybookbundle.asb-modules
 
 %changelog
+* Mon Dec 04 2017 Jason Montleon <jmontleo@redhat.com> 0.1.1-1
+- Create secret for bind credentials (#8) (david.j.zager@gmail.com)
+- bump release (#7) (jmrodri@gmail.com)
+
 * Thu Nov 02 2017 Jason Montleon <jmontleo@redhat.com> 0.0.2-1
 - new package built with tito
 
