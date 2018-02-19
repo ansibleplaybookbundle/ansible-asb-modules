@@ -22,6 +22,16 @@ options:
       - 'dictionary of key/value pairs to encode for a binding.  Keys will become the injected environment variables.'
     required: true
     default: {}
+ env:
+        - Set via the downward API on the APB Pod
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace    
 '''
 
 EXAMPLES = '''
