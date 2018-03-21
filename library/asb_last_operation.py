@@ -10,7 +10,7 @@ DOCUMENTATION = '''
 module: asb_last_operation
 short_description: Adds a annotation to the pod running the apb with a last operation description
 description:
-     - Takes a string containting the last operation description this decription should be clear and concise. 
+     - Takes a string containting the last operation description this decription should be clear and concise.
        This description is then added an an annotation to the pod executing the apb and read by the broker.
 notes: []
 requirements: []
@@ -31,7 +31,7 @@ env:
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:
-              fieldPath: metadata.namespace      
+              fieldPath: metadata.namespace
 '''
 
 EXAMPLES = '''
@@ -70,18 +70,20 @@ def main():
 
     lastOp = ansible_module.params['description']
 
-    try: 
+    try:
         name = os.environ[ENV_NAME]
         namespace = os.environ[ENV_NAMESPACE]
     except KeyError as error:
         ansible_module.fail_json(msg="Error attempting to update pod with last operation annotation. Missing key from environment: {}".format(error))
-    
-    try:    
-        pod = api.read_namespaced_pod(
-        name=name,
-        namespace=namespace
-        )    
 
+    try:
+        pod = api.read_namespaced_pod(
+            name=name,
+            namespace=namespace
+        )
+
+        if not pod.metadata.annotations:
+            pod.metadata.annotations = {}
         pod.metadata.annotations[LAST_OPERATION_ANNOTATION] = lastOp
         api.replace_namespaced_pod(name=name,namespace=namespace,body=pod,pretty='true')
     except Exception as error:
