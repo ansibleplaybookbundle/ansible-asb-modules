@@ -1,5 +1,5 @@
 Name:           ansible-asb-modules
-Version:        0.2.0
+Version:        0.2.1
 Release:        1%{?dist}
 Summary:        Ansible role containing Ansible Service Broker modules
 License:        ASL 2.0
@@ -28,6 +28,12 @@ mv * %{buildroot}%{_sysconfdir}/ansible/roles/ansibleplaybookbundle.asb-modules
 %{_sysconfdir}/ansible/roles/ansibleplaybookbundle.asb-modules
 
 %changelog
+* Wed Apr 25 2018 David Zager <david.j.zager@gmail.com> 0.2.1-1
+- Lock asb-brew releaser to 3.10 branch (#18) (dzager@redhat.com)
+- Bump release (#17) (dzager@redhat.com)
+- Bug 1569220 - Add dashboard_url ansible module (#16) (dymurray@redhat.com)
+- Initialize annotations if empty (#14) (dzager@redhat.com)
+
 * Thu Feb 22 2018 David Zager <david.j.zager@gmail.com> 0.1.2-1
 - last_operation module (#9) (maleck13@users.noreply.github.com)
 - Add basic doc to help contributers to add and test new modules (#10)
