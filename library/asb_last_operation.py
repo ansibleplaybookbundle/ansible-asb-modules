@@ -23,7 +23,7 @@ options:
     required: true
     default: ""
 env:
-        - Set via the downward API on the APB Pod
+        # Set via the downward API on the APB Pod
         - name: POD_NAME
           valueFrom:
             fieldRef:
