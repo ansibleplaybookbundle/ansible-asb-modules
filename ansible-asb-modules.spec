@@ -1,5 +1,5 @@
 Name:           ansible-asb-modules
-Version:        0.2.1
+Version:        0.2.2
 Release:        1%{?dist}
 Summary:        Ansible role containing Ansible Service Broker modules
 License:        ASL 2.0
@@ -28,6 +28,9 @@ mv * %{buildroot}%{_sysconfdir}/ansible/roles/ansibleplaybookbundle.asb-modules
 %{_sysconfdir}/ansible/roles/ansibleplaybookbundle.asb-modules
 
 %changelog
+* Mon Jul 23 2018 David Zager <david.j.zager@gmail.com> 0.2.2-1
+- get/set state module implementation (#15) (pgough@redhat.com)
+
 * Wed Apr 25 2018 David Zager <david.j.zager@gmail.com> 0.2.1-1
 - Lock asb-brew releaser to 3.10 branch (#18) (dzager@redhat.com)
 - Bump release (#17) (dzager@redhat.com)
