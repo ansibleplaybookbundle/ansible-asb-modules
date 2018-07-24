@@ -1,5 +1,5 @@
 Name:           ansible-asb-modules
-Version:        0.2.2
+Version:        0.3.0
 Release:        1%{?dist}
 Summary:        Ansible role containing Ansible Service Broker modules
 License:        ASL 2.0
